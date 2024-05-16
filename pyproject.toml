@@ -1,0 +1,133 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "csv-blueprint"
+dynamic = ["version"]
+description = 'CSV validation library using a YAML schema'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = ["CSV", "Schema", "validation"]
+authors = [
+  { name = "Kehinde Adewusi", email = "kehinde.adewusi@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "PyYAML",
+  "click",
+  "tabulate",
+]
+
+[project.urls]
+Documentation = "https://github.com/unknown/csv-blueprint#readme"
+Issues = "https://github.com/unknown/csv-blueprint/issues"
+Source = "https://github.com/unknown/csv-blueprint"
+
+[project.scripts]
+validate-csv = "csv_blueprint.cli:main"
+create-schema = "csv_blueprint.cli:schema"
+
+[tool.hatch.version]
+path = "src/csv_blueprint/__about__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+]
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.types]
+dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/csv_blueprint tests}"
+
+[tool.coverage.run]
+source_pkgs = ["csv_blueprint", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/csv_blueprint/__about__.py",
+]
+
+[tool.coverage.paths]
+csv_blueprint = ["src/csv_blueprint", "*/csv-blueprint/src/csv_blueprint"]
+tests = ["tests", "*/csv-blueprint/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.ruff.format]
+indent-style = "space"
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+
+ignore = [
+    # inplace=True used in v1.
+    "PD002",
+    # one-blank-line-before-class incompatible with
+    # no-blank-line-before-class D211
+    "D203",
+    # multi-line-summary-first-line (D212) 
+    # and `multi-line-summary-second-line` (D213) are incompatible. 
+    "D213",
+    # incompatible with formatter
+    "COM812", "ISC001",
+    # deprecated rules
+    "ANN101", "ANN102",
+    # type annotation, return type, return type annotation checks
+    "ANN001", "ANN202", "ANN201", "ANN002", "ANN003",
+    # assertion check, assert used only in tests.
+    "S101",
+    # flake8-copyright. Unstable and in preview.
+    "CPY",
+    # flake8-django (DJ)# Not a Django repo
+    "DJ",
+    # pandas-vet: TODO, v1 & v2 failing this.
+    "PD",
+    # NumPy-specific rules
+    "NPY",
+    # Airflow-specific rules
+    "AIR",
+    # refurb. in-preview
+    "FURB",
+    # No comment on public method (__init__ and __call__ in this case).
+    "D102", "D107",
+    # CapWords convention Ruff: ignored because the classes are callables.
+    "N801",
+    # Boolean-typed positional argument in function definitionRuff
+    "FBT001",
+]
