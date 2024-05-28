@@ -24,7 +24,7 @@ def validate_csv(csv: str, schema: str, ansi: str):  # noqa: ARG001
     return validator.validate(csv)
 
 
-def debug_schema(schema):  # noqa: ARG001
+def debug_schema(schema_path: str) -> None:  # noqa: ARG001
     """Debug a schema."""
 
 

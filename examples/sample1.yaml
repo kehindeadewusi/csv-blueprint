@@ -1,0 +1,38 @@
+name: 'Historical Unit Rates Schema'
+description: |-
+  Schema of the CSV file generated from Historical Unit Rates pipeline 
+  repo https://github.com/billups/historical_rates_data.
+  The output CSV file captures the rates units are sold for different campaigns.
+
+# matches unit-rates-2024-12-23.csv for example.
+filename_pattern: /unit\-rates\-\d{4}\-\d{2}\-\d{2}\.csv$/
+columns:
+- name: maverick_id
+  description: Unique identifier for Maverick
+  example: E83AD34C-66DE-41A2-8B4C-C8998A852B98
+  rules:
+    not_empty: true
+    is_trimmed: true
+    is_uppercase: true
+    is_uuid: true
+
+- name: geopath_id
+  description: GeoPath ID typically 8 digits
+  example: '14715555'
+  rules:
+    not_empty: true
+    is_trimmed: true
+    is_int: true
+    num_min: 0
+
+- name: cycle_type
+  description: The cycle type
+  example: '1-week'
+  rules:
+    not_empty: true
+    allow_values: 
+      - 1-week
+      - 1-month
+      - 1-year
+    is_int: true
+    num_min: 0

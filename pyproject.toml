@@ -28,6 +28,7 @@ dependencies = [
   "PyYAML",
   "click",
   "tabulate",
+  "colorama",
 ]
 
 [project.urls]
@@ -96,6 +97,8 @@ docstring-code-format = true
 select = ["ALL"]
 
 ignore = [
+    # print statements
+    "T201",
     # inplace=True used in v1.
     "PD002",
     # one-blank-line-before-class incompatible with
