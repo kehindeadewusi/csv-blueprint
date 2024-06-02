@@ -1,5 +1,6 @@
 """Rules validator."""
 
+import sys
 from colorama import init, Fore
 import csv
 from itertools import tee
@@ -20,6 +21,7 @@ except ImportError:
 
 
 init()
+
 
 class Validator:
     """CSV Blueprint Validator class."""
@@ -68,7 +70,7 @@ class Validator:
 
     @classmethod
     def from_yaml(cls, schema_path: str):  # noqa: ANN206
-        with open(schema_path) as stream:
+        with Path(schema_path).open() as stream:
             config = yaml.load(stream=stream, Loader=Loader)  # noqa: S506
             # obj = Validator._loadp() # noqa: ERA001
             return cls(config=config)
@@ -87,7 +89,7 @@ class Validator:
                             "rule": rule.__class__.__name__,
                             "column": name,
                             "value": val if val else "<empty>",
-                            "line": counter
+                            "line": counter,
                         }
                     )
         return result
@@ -107,6 +109,11 @@ class Validator:
             if result:
                 print(Fore.RED, len(result), "issues found.")
                 counter = itertools.count(start=1)
-                print(tabulate(result, headers="keys", tablefmt="github", showindex=counter))
+                print(
+                    tabulate(
+                        result, headers="keys", tablefmt="github", showindex=counter
+                    )
+                )
+                sys.exit(1)
             else:
                 print(Fore.GREEN, "All clear.")

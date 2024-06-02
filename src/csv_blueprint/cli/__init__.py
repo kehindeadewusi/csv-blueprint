@@ -40,6 +40,7 @@ def schema():
         create_schema()
     except SystemExit as err:
         if err.code:
+            print("Process terminated with an error.")
             raise
 
 
@@ -50,4 +51,5 @@ def main():
     except SystemExit as err:
         # re-raise unless main() finished without an error
         if err.code:
+            print("Process terminated with an error.")
             raise
