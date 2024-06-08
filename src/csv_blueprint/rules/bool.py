@@ -9,13 +9,17 @@ class is_bool:
     them as Python `True` and `False`.
     """
 
-    true_values = ("True", "true", True, "False", "false", False)
+    bool_values = (
+        "TRUE",
+        "FALSE",
+    )
 
     def __init__(self, b: bool) -> None:
-        self.b = b
+        self.b = str(b).upper() == "TRUE"
 
     def __call__(self, value: str) -> bool:
+        value = str(value).upper()
         if self.b:
-            return value in self.true_values
+            return value in self.bool_values
 
-        return value not in self.true_values
+        return str(value).upper() not in self.bool_values

@@ -30,49 +30,9 @@ class Validator:
         self.config = config
 
     @classmethod
-    def _loadp(cls) -> list:
-        """Test method."""
-        return [
-            {
-                "name": "maverick_id",
-                "description": "Unique identifier for Maverick",
-                "example": "E83AD34C-66DE-41A2-8B4C-C8998A852B98",
-                "rules": {
-                    "not_empty": False,
-                    "is_trimmed": True,
-                    "is_uppercase": True,
-                    "is_uuid": True,
-                },
-            },
-            {
-                "name": "geopath_id",
-                "description": "GeoPath ID typically 8 digits",
-                "example": "14715555",
-                "rules": {
-                    "not_empty": True,
-                    "is_trimmed": True,
-                    "is_int": True,
-                    "num_min": 0,
-                },
-            },
-            {
-                "name": "cycle_type",
-                "description": "The cycle type",
-                "example": "1-week",
-                "rules": {
-                    "not_empty": True,
-                    "allow_values": ["1-week", "1-month", "1-year"],
-                    "is_int": True,
-                    "num_min": 0,
-                },
-            },
-        ]
-
-    @classmethod
     def from_yaml(cls, schema_path: str):  # noqa: ANN206
         with Path(schema_path).open() as stream:
             config = yaml.load(stream=stream, Loader=Loader)  # noqa: S506
-            # obj = Validator._loadp() # noqa: ERA001
             return cls(config=config)
 
     def _process(self, reader, column_config):

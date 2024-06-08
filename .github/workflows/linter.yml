@@ -1,0 +1,13 @@
+name: Linting
+
+on:
+  workflow_call:
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: chartboost/ruff-action@v1
+        with:
+          src: "./src/csv_blueprint"
