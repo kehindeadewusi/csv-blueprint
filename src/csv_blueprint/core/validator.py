@@ -1,17 +1,17 @@
 """Rules validator."""
 
-import sys
-from colorama import init, Fore
 import csv
+import itertools
+import sys
 from itertools import tee
 from pathlib import Path
 
 import yaml
+from colorama import Fore, init
 from tabulate import tabulate
 
 from csv_blueprint.config import ValidationConfig
 from csv_blueprint.core import get_rule
-import itertools
 
 try:
     from yaml import CDumper as Dumper  # noqa: F401
